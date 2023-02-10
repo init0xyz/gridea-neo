@@ -7,7 +7,8 @@
     "name": "init0xyz",
     "email": "laiyilong0@gmail.com"
   },
-  "homepage": "https://www.electronjs.org",
+  "license": "MIT",
+  "homepage": "https://gridea.dev",
   "main": "./out/main/index.js",
   "scripts": {
     "format": "prettier --write .",
@@ -28,8 +29,13 @@
   "dependencies": {
     "@electron-toolkit/preload": "^1.0.3",
     "@electron-toolkit/utils": "^1.0.2",
+    "@types/lowdb": "^1.0.11",
     "@vueuse/core": "^9.12.0",
+    "bluebird": "^3.7.2",
     "electron-updater": "^5.3.0",
+    "junk": "^4.0.0",
+    "lowdb": "1.0.0",
+    "moment": "^2.29.4",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

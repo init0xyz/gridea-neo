@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-09 12:26:33
+ * @LastEditTime: 2023-02-10 16:42:54
  * @FilePath: /gridea-neo/electron.vite.config.ts
  */
 import { resolve } from 'path'
@@ -16,6 +16,11 @@ import Vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   main: {
+    resolve: {
+      alias: {
+        '@main': resolve('src/main/')
+      }
+    },
     plugins: [externalizeDepsPlugin()]
   },
   preload: {
