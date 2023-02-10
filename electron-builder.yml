@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.gridea.app
 productName: gridea-neo
 directories:
   buildResources: build
@@ -12,6 +12,7 @@ asarUnpack:
   - resources/*
 afterSign: build/notarize.js
 win:
+  icon: './resources/app-icons/gridea.ico'
   executableName: gridea-neo
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
@@ -19,6 +20,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:
+  icon: './resources/app-icons/gridea.icns'
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
@@ -28,6 +30,7 @@ mac:
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
+  icon: './resources/app-icons/gridea.png'
   target:
     - AppImage
     - snap

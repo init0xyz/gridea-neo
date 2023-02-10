@@ -1,18 +1,28 @@
+/*
+ * @Date: 2023-02-09 11:53:34
+ * @LastEditors: init0xyz laiyilong0@gmail.com
+ * @LastEditTime: 2023-02-10 16:08:47
+ * @FilePath: /gridea-neo/src/main/index.ts
+ */
 import { join } from 'path'
 import { BrowserWindow, app, shell } from 'electron'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/app-icons/gridea.png?asset'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1200,
+    height: 800,
+    minHeight: 642,
+    minWidth: 1000,
     show: false,
-    autoHideMenuBar: true,
+    title: 'Gridea',
+    // autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
+      nodeIntegration: true,
       sandbox: false
     }
   })
