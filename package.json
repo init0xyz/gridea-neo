@@ -38,6 +38,9 @@
     "junk": "^4.0.0",
     "lowdb": "1.0.0",
     "moment": "^2.29.4",
+    "nanoid": "^4.0.1",
+    "slug": "^8.2.2",
+    "transliteration": "^2.3.5",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
@@ -46,6 +49,7 @@
     "@electron/notarize": "^1.2.3",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/node": "16.18.11",
+    "@types/slug": "^5.0.3",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue-macros/volar": "^0.8.1",
     "@vue/eslint-config-prettier": "^7.0.0",
