@@ -1,4 +1,10 @@
-import markdown from '../server/plugins/markdown'
+/*
+ * @Date: 2023-02-09 10:19:12
+ * @LastEditors: init0xyz laiyilong0@gmail.com
+ * @LastEditTime: 2023-02-13 20:20:36
+ * @FilePath: /gridea-neo/src/main/helpers/utils.ts
+ */
+import markdown from '../plugins/markdown'
 
 /**
  * Add single-quoted to string type field, in order to be compatible with many special characters

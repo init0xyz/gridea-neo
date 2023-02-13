@@ -7,7 +7,7 @@ import ejs from 'ejs'
 import moment from 'moment'
 import less from 'less'
 import { Feed } from 'feed'
-import { isNotJunk } from 'junk'
+import junk from 'junk'
 import { timeCalc, wordCount } from './helpers/words-count'
 import ContentHelper from './helpers/content-helper'
 import { formatThemeCustomConfigToRender } from './helpers/utils'
@@ -23,17 +23,11 @@ const helper = new ContentHelper()
 
 export default class Renderer extends Model {
   outputDir: string = this.buildDir
-
   themePath = ''
-
   postsData: IPostRenderData[] = []
-
   tagsData: ISiteTagsData[] = []
-
   menuData: IMenu[] = []
-
   siteData: any = {}
-
   previewPort: number
 
   utils: any = {}
@@ -490,7 +484,7 @@ export default class Renderer extends Model {
     const customTemplates = files
       .filter((item) => !item.isDirectory())
       .map((item) => item.name)
-      .filter(isNotJunk)
+      .filter(junk.not)
       .filter((name: string) => {
         return ![
           'index.ejs',
@@ -574,7 +568,7 @@ export default class Renderer extends Model {
 
           const styleOverridePath = urlJoin(currentThemePath, 'style-override.js')
           const existOverrideFile = await fse.pathExists(styleOverridePath)
-          // TODO: Unable to dynamic load style-override.js if it's updated
+          // TODO: Unable to dynamicly load style-override.js if it's updated
           if (existOverrideFile) {
             const generateOverride = await import(styleOverridePath)
             const customCss = generateOverride.default(customConfig)

@@ -43,7 +43,7 @@ export default class SftpDeploy extends Model {
     if (setting.privateKey) {
       try {
         connectConfig.privateKey = fse.readFileSync(setting.privateKey)
-      } catch (e) {
+      } catch (e: any) {
         console.error('SFTP Test Remote Error: ', e.message)
         result.success = false
         result.message = e.message
@@ -66,7 +66,7 @@ export default class SftpDeploy extends Model {
 
         await client.put(localTestFilePath, remoteTestFilePath)
         await client.delete(remoteTestFilePath)
-      } catch (e) {
+      } catch (e: any) {
         console.error('SFTP Test Remote Error: ', e.message)
         result.success = false
         result.message = e.message
@@ -75,7 +75,7 @@ export default class SftpDeploy extends Model {
           fse.unlinkSync(localTestFilePath)
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error('SFTP Test Remote Error: ', e.message)
       result.success = false
       result.message = e.message
@@ -129,12 +129,12 @@ export default class SftpDeploy extends Model {
             ) // do not allow node_modules
           }
         })
-      } catch (e) {
+      } catch (e: any) {
         console.error('SFTP Publish Error: ', e.message)
         result.success = false
         result.message = e.message
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error('SFTP Publish Error: ', e.message)
       result.success = false
       result.message = e.message

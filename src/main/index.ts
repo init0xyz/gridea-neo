@@ -1,14 +1,22 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-12 16:43:20
+ * @LastEditTime: 2023-02-13 20:41:14
  * @FilePath: /gridea-neo/src/main/index.ts
  */
 import { join } from 'path'
-import { BrowserWindow, app, shell } from 'electron'
+import { BrowserWindow, app, protocol, shell } from 'electron'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/app-icons/gridea.png?asset'
+import initServer from './server'
+import App from './app'
 
+const s = initServer()
+const httpServer = s.server
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'app', privileges: { secure: true, standard: true } }
+])
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -43,6 +51,18 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  const setting = {
+    mainWindow,
+    app,
+    baseDir: __dirname,
+    previewServer: s.app
+  }
+
+  // Init app
+  const appInstance = new App(setting)
+  // eslint-disable-next-line no-console
+  console.log('Main process runing...', appInstance.appDir) // DELETE ME
 }
 
 // This method will be called when Electron has finished
@@ -66,15 +86,13 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
-
-  // eslint-disable-next-line no-console
-  console.log(app.getPath('home'))
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  httpServer && httpServer.close()
   if (process.platform !== 'darwin') {
     app.quit()
   }

@@ -107,10 +107,11 @@ export default class NetlifyApi extends Model {
       }
 
       return result
-    } catch (e) {
+    } catch (e: any) {
       result.success = false
       result.message = `[Server] 同步失败： ${e.message}`
     }
+    return result
   }
 
   async prepareLocalFilesList() {

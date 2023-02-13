@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
-import { isNotJunk } from 'junk'
+import junk from 'junk'
 import Model from './model'
 import type { ITheme } from './interfaces/theme'
 
@@ -25,7 +25,7 @@ export default class Theme extends Model {
    */
   async getThemeList() {
     let themes = await fse.readdir(this.themeDir)
-    themes = themes.filter(isNotJunk)
+    themes = themes.filter(junk.not)
     const result = await Promise.all(
       themes.map(async (item: string) => {
         const data = {

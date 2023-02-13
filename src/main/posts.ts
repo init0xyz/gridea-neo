@@ -1,8 +1,8 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import * as fse from 'fs-extra'
-import { isNotJunk } from 'junk'
 import matter from 'gray-matter'
+import junk from 'junk'
 import moment from 'moment'
 import Model from './model'
 import { formatYamlString } from './helpers/utils'
@@ -25,7 +25,7 @@ export default class Posts extends Model {
     const requestList: Promise<string>[] = []
     let files = await fse.readdir(this.postDir)
 
-    files = files.filter(isNotJunk)
+    files = files.filter(junk.not)
     files.forEach((item) => {
       requestList.push(fs.readFile(path.join(this.postDir, item), { encoding: 'utf8' }))
     })
