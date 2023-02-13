@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-10 16:42:54
+ * @LastEditTime: 2023-02-13 10:17:29
  * @FilePath: /gridea-neo/electron.vite.config.ts
  */
 import { resolve } from 'path'
@@ -16,6 +16,15 @@ import Vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   main: {
+    // build: {
+    //   minify: 'terser',
+    //   terserOptions: {
+    //     compress: {
+    //       drop_console: true,
+    //       drop_debugger: true
+    //     }
+    //   }
+    // },
     resolve: {
       alias: {
         '@main': resolve('src/main/')
@@ -27,6 +36,15 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()]
   },
   renderer: {
+    // build: {
+    //   minify: 'terser',
+    //   terserOptions: {
+    //     compress: {
+    //       drop_console: true,
+    //       drop_debugger: true
+    //     }
+    //   }
+    // },
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src')

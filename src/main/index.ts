@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-10 16:08:47
+ * @LastEditTime: 2023-02-12 16:43:20
  * @FilePath: /gridea-neo/src/main/index.ts
  */
 import { join } from 'path'
@@ -66,6 +66,9 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  // eslint-disable-next-line no-console
+  console.log(app.getPath('home'))
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
