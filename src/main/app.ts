@@ -151,8 +151,7 @@ export default class App {
     return {
       ...this.db,
       currentThemeConfig,
-      appDir: this.appDir,
-      mainWindow: this.mainWindow
+      appDir: this.appDir
     }
   }
 
@@ -244,17 +243,15 @@ export default class App {
         if (existFaviconOutput && !existFaviconSource) {
           fse.moveSync(outputFavicon, sourceFavicon)
         }
+      } else {
+        // Site folder not exists
+        this.appDir = defaultAppDir
+        const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
+        fse.writeFileSync(appConfigPath, jsonString)
+        fse.mkdirSync(this.appDir)
 
-        return
+        fse.copySync(path.join(__static, 'default-files'), path.join(this.appDir))
       }
-
-      // Site folder not exists
-      this.appDir = defaultAppDir
-      const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
-      fse.writeFileSync(appConfigPath, jsonString)
-      fse.mkdirSync(this.appDir)
-
-      fse.copySync(path.join(__static, 'default-files'), path.join(this.appDir))
     } catch (e) {
       console.log('Error', e)
     } finally {

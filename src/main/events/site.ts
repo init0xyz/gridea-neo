@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 10:19:12
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-13 17:27:50
+ * @LastEditTime: 2023-02-13 22:32:41
  * @FilePath: /gridea-neo/src/main/events/site.ts
  */
 import { ipcMain } from 'electron'
@@ -20,7 +20,7 @@ export default function initSiteEvents(appInstance: any) {
 
   ipcMain.on('app-site-reload', async (event: IpcMainEvent) => {
     const result = await appInstance.loadSite()
-    event.sender.send('app-site-loaded', result)
+    event.sender.send('app-site-reloaded', result)
   })
 
   ipcMain.on('app-source-folder-setting', async (event: IpcMainEvent, params: string) => {

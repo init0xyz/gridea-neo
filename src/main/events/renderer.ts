@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 10:19:12
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-13 17:26:37
+ * @LastEditTime: 2023-02-14 10:09:38
  * @FilePath: /gridea-neo/src/main/events/renderer.ts
  */
 import { ipcMain } from 'electron'
@@ -18,6 +18,6 @@ export default function initRendererEvents(appInstance: any) {
     if (renderer.db.themeConfig.themeName) {
       await renderer.preview()
     }
-    event.sender.send('html-rendered', null)
+    event.sender.send('html-rendered')
   })
 }
