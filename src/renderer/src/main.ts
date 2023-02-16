@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-16 15:46:10
+ * @LastEditTime: 2023-02-16 21:59:35
  * @FilePath: /gridea-neo/src/renderer/src/main.ts
  */
 import { createApp } from 'vue'
@@ -11,6 +11,7 @@ import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
 import './assets/css/zwicon.less'
+import 'remixicon/fonts/remixicon.css'
 import 'uno.css'
 
 const app = createApp(App)
