@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-10 15:12:29
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-17 20:59:33
+ * @LastEditTime: 2023-02-17 22:18:24
  * @FilePath: /gridea-neo/src/renderer/src/pages/index.vue
 -->
 <script setup lang="ts">
@@ -63,8 +63,23 @@ function publish() {
 }
 
 function preview() {
-  // eslint-disable-next-line no-console
-  console.log('click preview button')
+  window.electron.ipcRenderer.send('html-render')
+
+  window.electron.ipcRenderer.once('html-rendered', () => {
+    window.electron.ipcRenderer.send('app-preview-server-port-get')
+    window.electron.ipcRenderer.once(
+      'app-preview-server-port-got',
+      (_, port: number | string | null) => {
+        if (!port && typeof port !== 'number') {
+          // eslint-disable-next-line no-console
+          console.log('有错误')
+        } else {
+          // eslint-disable-next-line no-console
+          console.log(`成功， 端口号为${port}`)
+        }
+      }
+    )
+  })
 }
 
 const hasUpdate = ref(false)
@@ -72,7 +87,6 @@ const systemModalVisible = ref(false)
 
 const router = useRouter()
 onMounted(() => {
-  reloadSite()
   router.push('articles')
   // @see https://docs.headwayapp.co/widget for more configuration options.
   const config = {
@@ -94,6 +108,7 @@ onMounted(() => {
     // @ts-expect-error init at index.html
     Headway.init(config)
   }
+  reloadSite()
 })
 </script>
 
