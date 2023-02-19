@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-19 11:36:45
+ * @LastEditTime: 2023-02-19 17:20:02
  * @FilePath: /gridea-neo/src/renderer/src/main.ts
  */
 import { createApp } from 'vue'
