@@ -6,6 +6,7 @@ specifiers:
   '@electron-toolkit/tsconfig': ^1.0.1
   '@electron-toolkit/utils': ^1.0.2
   '@electron/notarize': ^1.2.3
+  '@gr2m/gray-matter': 4.0.3-with-pr-137
   '@iktakahiro/markdown-it-katex': ^4.0.1
   '@rushstack/eslint-patch': ^1.2.0
   '@types/express': ^4.17.17
@@ -30,8 +31,8 @@ specifiers:
   eslint-plugin-vue: ^9.8.0
   express: ^4.18.2
   feed: ^4.2.2
+  front-matter: ^4.0.2
   fs-extra: ^11.1.0
-  gray-matter: ^4.0.3
   hpagent: ^1.2.0
   husky: ^8.0.3
   isomorphic-git: ^1.21.0
@@ -78,6 +79,7 @@ specifiers:
 dependencies:
   '@electron-toolkit/preload': 1.0.3_electron@21.4.1
   '@electron-toolkit/utils': 1.0.2_electron@21.4.1
+  '@gr2m/gray-matter': 4.0.3-with-pr-137
   '@iktakahiro/markdown-it-katex': 4.0.1
   '@types/less': 3.0.3
   '@types/lowdb': 1.0.11
@@ -88,8 +90,8 @@ dependencies:
   element-plus: 2.2.30_vue@3.2.47
   express: 4.18.2
   feed: 4.2.2
+  front-matter: 4.0.2
   fs-extra: 11.1.0
-  gray-matter: 4.0.3
   hpagent: 1.2.0
   isomorphic-git: 1.21.0
   junk: 3.1.0
@@ -808,6 +810,16 @@ packages:
     resolution: {integrity: sha512-Rt45SmRiV8eU+xXSB9t0uMYiQ/ZWGE/jumse2o3i5RGlyvcbqOF4q+1qBnzLE2kZ5JGhq0iMkcGXUKbFe7MpTA==}
     dependencies:
       '@floating-ui/core': 1.2.1
+    dev: false
+
+  /@gr2m/gray-matter/4.0.3-with-pr-137:
+    resolution: {integrity: sha512-6prHnKL+WQzCFe64DtUKki7MacXZARwNH3jlocGrOMgGw8AJASl405f/ULz6vjIU9uTDnxwP2N7ZlHEqOX1T6w==}
+    engines: {node: '>=6.0'}
+    dependencies:
+      js-yaml: 4.1.0
+      kind-of: 6.0.3
+      section-matter: 1.0.0
+      strip-bom-string: 1.0.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
@@ -3992,6 +4004,12 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /front-matter/4.0.2:
+    resolution: {integrity: sha512-I8ZuJ/qG92NWX8i5x1Y8qyj3vizhXS31OxjKDu3LKP+7/qBgfIKValiZIEwoVoJKUHlhWtYrktkxV1XsX+pPlg==}
+    dependencies:
+      js-yaml: 3.14.1
+    dev: false
+
   /fs-extra/10.1.0:
     resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
     engines: {node: '>=12'}
@@ -4243,16 +4261,6 @@ packages:
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
-
-  /gray-matter/4.0.3:
-    resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
-    engines: {node: '>=6.0'}
-    dependencies:
-      js-yaml: 3.14.1
-      kind-of: 6.0.3
-      section-matter: 1.0.0
-      strip-bom-string: 1.0.0
-    dev: false
 
   /gzip-size/6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-10 15:12:29
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-17 22:18:24
+ * @LastEditTime: 2023-02-19 15:00:20
  * @FilePath: /gridea-neo/src/renderer/src/pages/index.vue
 -->
 <script setup lang="ts">
@@ -71,15 +71,37 @@ function preview() {
       'app-preview-server-port-got',
       (_, port: number | string | null) => {
         if (!port && typeof port !== 'number') {
-          // eslint-disable-next-line no-console
-          console.log('有错误')
+          ElMessage.error({
+            message: '渲染错误',
+            duration: 1500,
+            icon: () => {
+              return '❌'
+            }
+          })
         } else {
-          // eslint-disable-next-line no-console
-          console.log(`成功， 端口号为${port}`)
+          ElMessage.success({
+            message: '渲染成功',
+            duration: 1500,
+            icon: () => {
+              return '🎉'
+            }
+          })
+          window.electron.ipcRenderer.send('open-url', `http://localhost:${port}`)
         }
       }
     )
   })
+}
+
+function goWebSite() {
+  const siteURL = store.$state.setting.domain
+  if (siteURL) {
+    window.electron.ipcRenderer.send('open-url', siteURL)
+  }
+}
+
+function goGithubRepo() {
+  window.electron.ipcRenderer.send('open-url', 'https://github.com/getgridea/gridea')
 }
 
 const hasUpdate = ref(false)
@@ -145,10 +167,15 @@ onMounted(() => {
             {{ '同 步' }}
           </el-button>
           <div class="version-container" :class="{ 'version-dot': hasUpdate }">
-            <i class="ri-equalizer-line text-base" @click="systemModalVisible = true"></i>
-            <i class="ri-earth-line web-btn"></i>
+            <i class="ri-equalizer-line text-base hover:color-blue-500"
+              @click="systemModalVisible = true"
+            ></i>
+            <i v-if="store.$state.setting.domain"
+              class="ri-earth-line web-btn hover:color-blue-500"
+              @click="goWebSite"
+            ></i>
             <el-tooltip content="Star支持作者">
-              <i class="ri-github-line text-base"></i>
+              <i class="ri-github-line text-base hover:color-blue-500" @click="goGithubRepo"></i>
             </el-tooltip>
           </div>
         </div>
@@ -315,10 +342,6 @@ onMounted(() => {
 .web-btn {
   font-size: 16px;
   cursor: pointer;
-
-  &:hover {
-    color: @link-color;
-  }
 }
 
 .version-container {
@@ -343,14 +366,5 @@ onMounted(() => {
       transform: translateY(-50%);
     }
   }
-}
-
-:root {
-  --el-menu-bg-color: @primary-bg;
-  --el-menu-hover-bg-color: @primary-hover-bg;
-  --el-menu-active-color: black;
-
-  --el-menu-item-height: 36px;
-  --el-button-text-color: gray;
 }
 </style>

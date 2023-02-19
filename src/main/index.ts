@@ -1,11 +1,11 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-14 09:51:01
+ * @LastEditTime: 2023-02-19 14:48:43
  * @FilePath: /gridea-neo/src/main/index.ts
  */
 import { join } from 'path'
-import { BrowserWindow, app, protocol, shell } from 'electron'
+import { BrowserWindow, app, ipcMain, protocol, shell } from 'electron'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/app-icons/gridea.png?asset'
 import initServer from './server'
@@ -100,3 +100,6 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+ipcMain.on('open-url', (_, url: string) => {
+  shell.openExternal(url)
+})

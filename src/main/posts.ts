@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import * as fse from 'fs-extra'
-import matter from 'gray-matter'
+import matter from '@gr2m/gray-matter'
 import junk from 'junk'
 import moment from 'moment'
 import Model from './model'
