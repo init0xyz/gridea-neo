@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-16 16:54:04
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-19 21:13:53
+ * @LastEditTime: 2023-02-24 19:43:20
  * @FilePath: /gridea-neo/src/renderer/src/pages/index/articles.vue
 -->
 <script setup lang="ts">
@@ -37,9 +37,16 @@ const currentPostList = computed(() => {
   )
 })
 
+const articleUpdateVisible = ref(false)
+
 function editPost(post: IPost) {
+  articleUpdateVisible.value = true
   // eslint-disable-next-line no-console
   console.log(post)
+}
+
+function close() {
+  articleUpdateVisible.value = false
 }
 </script>
 
@@ -134,6 +141,9 @@ function editPost(post: IPost) {
         </div>
       </div>
     </div>
+    <transition name="el-fade-in">
+      <article-update v-if="articleUpdateVisible" @close="close" />
+    </transition>
   </div>
 </template>
 

@@ -53,6 +53,7 @@ specifiers:
   markdown-it-task-lists: ^2.1.1
   markdown-it-toc-and-anchor: ^4.2.0
   moment: ^2.29.4
+  monaco-markdown: ^0.0.12
   nanoid: 3.3.4
   node-ssh: ^13.0.1
   pinia: ^2.0.30
@@ -110,6 +111,7 @@ dependencies:
   markdown-it-task-lists: 2.1.1
   markdown-it-toc-and-anchor: 4.2.0
   moment: 2.29.4
+  monaco-markdown: 0.0.12
   nanoid: 3.3.4
   node-ssh: 13.0.1
   pinia: 2.0.30_hmuptsblhheur2tugfgucj7gc4
@@ -5409,6 +5411,17 @@ packages:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
 
+  /monaco-editor/0.30.1:
+    resolution: {integrity: sha512-B/y4+b2O5G2gjuxIFtCE2EkM17R2NM7/3F8x0qcPsqy4V83bitJTIO4TIeZpYlzu/xy6INiY/+84BEm6+7Cmzg==}
+    dev: false
+
+  /monaco-markdown/0.0.12:
+    resolution: {integrity: sha512-KkGheL2pUazZJY2DfBqpHuMQOjILkbYGNtF5MzpT3ZWupKjunkpL7ByKTllBQGKKcVNt5nuRHl7YsKFskWlc6Q==}
+    dependencies:
+      monaco-editor: 0.30.1
+      string-similarity: 3.0.0
+    dev: false
+
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -6468,6 +6481,10 @@ packages:
     resolution: {integrity: sha512-a1uQGz7IyVy9YwhqjZIZu1c8JO8dNIe20xBmSS6qu9kv++k3JGzCVmprbNN5Kn+BgzD5E7YYwg1CcjuJMRNsvg==}
     engines: {node: '>=0.6.19'}
     dev: true
+
+  /string-similarity/3.0.0:
+    resolution: {integrity: sha512-7kS7LyTp56OqOI2BDWQNVnLX/rCxIQn+/5M0op1WV6P8Xx6TZNdajpuqQdiJ7Xx+p1C5CsWMvdiBp9ApMhxzEQ==}
+    dev: false
 
   /string-width/4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
