@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-24 20:42:18
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-25 20:28:11
+ * @LastEditTime: 2023-02-26 16:03:36
  * @FilePath: /gridea-neo/src/renderer/src/components/monacoMarkdownEditor.vue
 -->
 <script setup lang="ts">
@@ -9,9 +9,11 @@ import * as monaco from 'monaco-editor'
 import * as MonacoMarkdown from 'monaco-markdown'
 import theme from '@renderer/assets/monaco-theme'
 
-const props = defineProps(['content'])
+const props = defineProps({
+  content: String
+})
 
-const emits = defineEmits(['update', 'keydown'])
+// const emits = defineEmits(['update', 'keydown'])
 
 // const setEditorHeight = () => {
 //   const lines = document.querySelectorAll('.view-line') as any
@@ -28,8 +30,6 @@ const emits = defineEmits(['update', 'keydown'])
 let editor: any = null
 
 onMounted(() => {
-  // eslint-disable-next-line no-console
-  console.log(props.content)
   monaco.editor.defineTheme('GrideaLight', theme as any)
   monaco.editor.setTheme('GrideaLight')
   editor = monaco.editor.create(document.getElementById('monaco-markdown-editor') as any, {
@@ -64,17 +64,17 @@ onMounted(() => {
 
   // setTimeout(setEditorHeight, 0)
 
-  editor.onDidChangeModelContent(() => {
-    // setTimeout(setEditorHeight, 0)
-    const value = editor.getValue()
-    if (props.content !== value) {
-      emits('update', value)
-    }
-  })
+  // editor.onDidChangeModelContent(() => {
+  //   // setTimeout(setEditorHeight, 0)
+  //   const value = editor.getValue()
+  //   if (props.content !== value) {
+  //     emits('update', value)
+  //   }
+  // })
 
-  editor.onKeyDown(() => {
-    emits('keydown')
-  })
+  // editor.onKeyDown(() => {
+  //   emits('keydown')
+  // })
 })
 </script>
 

@@ -1,12 +1,20 @@
 <!--
  * @Date: 2023-02-24 18:52:27
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-25 20:23:26
+ * @LastEditTime: 2023-02-26 16:05:16
  * @FilePath: /gridea-neo/src/renderer/src/components/ArticleUpdate.vue
 -->
 <script setup lang="ts">
+import { UrlFormats } from '@renderer/helpers/enums'
+import { useSiteStore } from '@renderer/store'
 import moment from 'moment'
+import { nanoid } from 'nanoid'
+import type { IPost } from 'src/interfaces/post'
+const props = defineProps({
+  articleFileName: String
+})
 const emits = defineEmits(['close'])
+const store = useSiteStore()
 
 function close() {
   emits('close')
@@ -19,7 +27,7 @@ const form = ref({
   fileName: '',
   tags: [] as string[],
   date: moment(new Date()),
-  content: '# hello world',
+  content: '',
   published: false,
   hideInList: false,
   isTop: false,
@@ -30,6 +38,49 @@ const form = ref({
   },
   featureImagePath: '',
   deleteFileName: ''
+})
+
+const fileNameChanged = ref(false)
+const currentPostIndex = ref(-1)
+const originalFileName = ref('')
+const featureType = ref<'DEFAULT' | 'EXTERNAL'>('DEFAULT')
+
+function buildCurrentForm() {
+  if (props.articleFileName) {
+    fileNameChanged.value = true
+    currentPostIndex.value = store.posts.findIndex(
+      (item: IPost) => item.fileName === props.articleFileName
+    )
+    const currentPost = store.posts[currentPostIndex.value]
+    originalFileName.value = currentPost.fileName
+    if (currentPost) {
+      form.value.title = currentPost.data.title
+      form.value.fileName = currentPost.fileName
+      form.value.tags = currentPost.data.tags || []
+      form.value.date = moment(currentPost.data.date).isValid()
+        ? moment(currentPost.data.date)
+        : moment()
+      form.value.content = currentPost.content
+      form.value.published = currentPost.data.published
+      form.value.hideInList = currentPost.data.hideInList
+      form.value.isTop = currentPost.data.isTop
+
+      if (currentPost.data.feature && currentPost.data.feature.includes('http')) {
+        form.value.featureImagePath = currentPost.data.feature
+        featureType.value = 'EXTERNAL'
+      } else {
+        form.value.featureImage.path =
+          (currentPost.data.feature && currentPost.data.feature.substring(7)) || ''
+        form.value.featureImage.name = form.value.featureImage.path.replace(/^.*[\\/]/, '')
+      }
+    }
+  } else if (store.$state.themeConfig.postUrlFormat === UrlFormats.ShortId) {
+    form.value.fileName = nanoid(7)
+  }
+}
+
+onBeforeMount(() => {
+  buildCurrentForm()
 })
 </script>
 
@@ -61,11 +112,9 @@ const form = ref({
           size="large"
           placeholder="输入标题"
         ></el-input>
-        <monaco-markdown-editor ref="monacoMarkdownEditor"
-          :content="form.content"
-          class="post-editor"
-          @update="(newValue) => (form.content = newValue)"
-        />
+        <monaco-markdown-editor :content="form.content" class="post-editor" />
+        <!-- <monaco-markdown-editor ref="monacoMarkdownEditor" :content="form.content" class="post-editor"
+                @update="(newValue) => (form.content = newValue)" /> -->
       </div>
     </div>
   </div>

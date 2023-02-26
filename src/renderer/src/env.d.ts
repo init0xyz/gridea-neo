@@ -1,3 +1,9 @@
+/*
+ * @Date: 2023-02-09 11:53:34
+ * @LastEditors: init0xyz laiyilong0@gmail.com
+ * @LastEditTime: 2023-02-26 16:59:54
+ * @FilePath: /gridea-neo/src/renderer/src/env.d.ts
+ */
 /// <reference types="vite/client" />
 
 declare module '*.vue' {

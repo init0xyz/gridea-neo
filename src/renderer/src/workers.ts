@@ -2,7 +2,7 @@
 /*
  * @Date: 2023-02-25 11:47:15
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-25 11:51:20
+ * @LastEditTime: 2023-02-26 17:00:35
  * @FilePath: /gridea-neo/src/renderer/src/workers.ts
  */
 import * as monaco from 'monaco-editor'
@@ -11,6 +11,12 @@ import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+
+declare global {
+  interface Window {
+    MonacoEnvironment: any
+  }
+}
 
 self.MonacoEnvironment = {
   getWorker(_: any, label: string) {

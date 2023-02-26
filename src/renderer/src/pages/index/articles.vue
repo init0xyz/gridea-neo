@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-16 16:54:04
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-24 19:43:20
+ * @LastEditTime: 2023-02-26 15:24:47
  * @FilePath: /gridea-neo/src/renderer/src/pages/index/articles.vue
 -->
 <script setup lang="ts">
@@ -38,11 +38,11 @@ const currentPostList = computed(() => {
 })
 
 const articleUpdateVisible = ref(false)
+const currentArticleFileName = ref('')
 
 function editPost(post: IPost) {
   articleUpdateVisible.value = true
-  // eslint-disable-next-line no-console
-  console.log(post)
+  currentArticleFileName.value = post.fileName
 }
 
 function close() {
@@ -142,7 +142,10 @@ function close() {
       </div>
     </div>
     <transition name="el-fade-in">
-      <article-update v-if="articleUpdateVisible" @close="close" />
+      <article-update v-if="articleUpdateVisible"
+        :article-file-name="currentArticleFileName"
+        @close="close"
+      />
     </transition>
   </div>
 </template>
