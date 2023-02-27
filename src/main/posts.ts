@@ -52,15 +52,15 @@ export default class Posts extends Model {
 
           if (tagReg.test(result)) {
             const mdStr = `---
-              title: '${data.title}'
-              date: ${data.date}
-              tags: [${newTagString}]
-              published: ${data.published || false}
-              hideInList: ${data.hideInList || false}
-              feature: ${data.feature || ''}
-              isTop: ${data.isTop || false}
-              ---
-              ${postMatter.content}`
+title: '${data.title}'
+date: ${data.date}
+tags: [${newTagString}]
+published: ${data.published || false}
+hideInList: ${data.hideInList || false}
+feature: ${data.feature || ''}
+isTop: ${data.isTop || false}
+---
+${postMatter.content}`
 
             fixedResults[index] = mdStr
             fse.writeFileSync(`${this.postDir}/${files[index]}`, mdStr)
@@ -155,19 +155,17 @@ export default class Posts extends Model {
     post.title = formatYamlString(post.title)
 
     const mdStr = `---
-      title: '${post.title}'
-      date: ${post.date}
-      tags: [${post.tags.join(',')}]
-      published: ${post.published}
-      hideInList: ${post.hideInList}
-      feature: ${
-        post.featureImage.name
-          ? `/post-images/${post.fileName}.${extendName}`
-          : post.featureImagePath
-      }
-      isTop: ${post.isTop}
-      ---
-      ${content}`
+title: '${post.title}'
+date: ${post.date}
+tags: [${post.tags.join(',')}]
+published: ${post.published}
+hideInList: ${post.hideInList}
+feature: ${
+      post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : post.featureImagePath
+    }
+isTop: ${post.isTop}
+---
+${content}`
 
     try {
       // If exist feature image

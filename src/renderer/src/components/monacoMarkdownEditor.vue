@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-24 20:42:18
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-26 16:03:36
+ * @LastEditTime: 2023-02-26 21:56:49
  * @FilePath: /gridea-neo/src/renderer/src/components/monacoMarkdownEditor.vue
 -->
 <script setup lang="ts">
@@ -13,7 +13,7 @@ const props = defineProps({
   content: String
 })
 
-// const emits = defineEmits(['update', 'keydown'])
+const emits = defineEmits(['update', 'keydown'])
 
 // const setEditorHeight = () => {
 //   const lines = document.querySelectorAll('.view-line') as any
@@ -64,17 +64,17 @@ onMounted(() => {
 
   // setTimeout(setEditorHeight, 0)
 
-  // editor.onDidChangeModelContent(() => {
-  //   // setTimeout(setEditorHeight, 0)
-  //   const value = editor.getValue()
-  //   if (props.content !== value) {
-  //     emits('update', value)
-  //   }
-  // })
+  editor.onDidChangeModelContent(() => {
+    // setTimeout(setEditorHeight, 0)
+    const value = editor.getValue()
+    if (props.content !== value) {
+      emits('update', value)
+    }
+  })
 
-  // editor.onKeyDown(() => {
-  //   emits('keydown')
-  // })
+  editor.onKeyDown(() => {
+    emits('keydown')
+  })
 })
 </script>
 

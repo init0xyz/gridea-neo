@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-02-09 11:53:34
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-25 11:51:43
+ * @LastEditTime: 2023-02-27 11:38:31
  * @FilePath: /gridea-neo/src/renderer/src/main.ts
  */
 import { createApp } from 'vue'
@@ -23,6 +23,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
+
 app.use(router)
 app.use(pinia)
 app.mount('#app')

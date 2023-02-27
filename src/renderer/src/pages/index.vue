@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-10 15:12:29
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-19 15:00:20
+ * @LastEditTime: 2023-02-27 15:22:39
  * @FilePath: /gridea-neo/src/renderer/src/pages/index.vue
 -->
 <script setup lang="ts">
@@ -130,8 +130,11 @@ onMounted(() => {
     // @ts-expect-error init at index.html
     Headway.init(config)
   }
+
   reloadSite()
 })
+
+provide('site-reload', reloadSite)
 </script>
 
 <template>

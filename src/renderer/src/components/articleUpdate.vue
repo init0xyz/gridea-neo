@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-24 18:52:27
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-26 16:05:16
+ * @LastEditTime: 2023-02-27 22:22:05
  * @FilePath: /gridea-neo/src/renderer/src/components/ArticleUpdate.vue
 -->
 <script setup lang="ts">
@@ -10,17 +10,33 @@ import { useSiteStore } from '@renderer/store'
 import moment from 'moment'
 import { nanoid } from 'nanoid'
 import type { IPost } from 'src/interfaces/post'
+import type { Action } from 'element-plus'
+import slug from '@renderer/helpers/slug'
 const props = defineProps({
   articleFileName: String
 })
 const emits = defineEmits(['close'])
 const store = useSiteStore()
+const reloadSite = inject('site-reload', Function, true)
+
+const changedAfterLastSave = ref(false)
 
 function close() {
+  if (changedAfterLastSave.value === true) {
+    ElMessageBox.confirm('你将丢失所有的未保存的更改，是否继续？', '警告', {
+      confirmButtonText: '继续',
+      cancelButtonText: '返回',
+      callback: (action: Action) => {
+        if (action === 'confirm') {
+          changedAfterLastSave.value = false
+          emits('close')
+        }
+      }
+    })
+    return
+  }
   emits('close')
 }
-
-const canSubmit = ref(true)
 
 const form = ref({
   title: '',
@@ -38,6 +54,10 @@ const form = ref({
   },
   featureImagePath: '',
   deleteFileName: ''
+})
+
+const canSubmit = computed(() => {
+  return form.value.title && form.value.content
 })
 
 const fileNameChanged = ref(false)
@@ -79,9 +99,119 @@ function buildCurrentForm() {
   }
 }
 
+function buildFileName() {
+  if (form.value.fileName === '') {
+    form.value.fileName =
+      store.$state.themeConfig.postUrlFormat === UrlFormats.Slug
+        ? slug(form.value.title)
+        : nanoid(7)
+  }
+}
+
+function checkArticleUrlValid() {
+  const restPosts = JSON.parse(JSON.stringify(store.$state.posts))
+  const foundPostIndex = restPosts.findIndex((post: IPost) => post.fileName === form.value.fileName)
+
+  if (foundPostIndex === -1) {
+    if (currentPostIndex.value === -1) {
+      // 新增文章时文件名和其他文章文件名冲突
+      return false
+    }
+    restPosts.splice(currentPostIndex.value, 1)
+    const index = restPosts.findIndex((post: IPost) => post.fileName === form.value.fileName)
+    if (index !== -1) {
+      return false
+    }
+  }
+
+  currentPostIndex.value = currentPostIndex.value === -1 ? 0 : currentPostIndex.value
+  return true
+}
+
+function formatForm(published?: boolean) {
+  buildFileName()
+  const valid = checkArticleUrlValid()
+  if (!valid) {
+    ElMessage.error('文章的 URL 与其他文章重复')
+    return
+  }
+
+  if (form.value.fileName.includes('/')) {
+    ElMessage.error('URL 不可包含 /')
+    return
+  }
+
+  // 文件名改变之后，删除原来文件
+  if (form.value.fileName.toLowerCase() !== originalFileName.value.toLowerCase()) {
+    form.value.deleteFileName = originalFileName.value
+  }
+  const result = {
+    ...JSON.parse(JSON.stringify(form.value)),
+    date: form.value.date.format('YYYY-MM-DD HH:mm:ss')
+  }
+  if (featureType.value !== 'EXTERNAL') {
+    result.featureImagePath = ''
+  }
+  if (featureType.value !== 'DEFAULT') {
+    result.featureImage = {
+      path: '',
+      name: '',
+      type: ''
+    }
+  }
+
+  result.published = typeof published === 'boolean' ? published : result.published
+
+  return result
+}
+
+function updatePostSavedStatus() {
+  changedAfterLastSave.value = false
+}
+
+function saveDraft() {
+  if (canSubmit.value) {
+    const result = formatForm(false)
+    window.electron.ipcRenderer.send('app-post-create', result)
+    window.electron.ipcRenderer.once('app-post-created', () => {
+      updatePostSavedStatus()
+      ElMessage.success('保存草稿成功')
+      reloadSite()
+    })
+  }
+}
+
+function savePost() {
+  if (canSubmit.value) {
+    const result = formatForm(true)
+    // eslint-disable-next-line no-console
+    console.log(result)
+    window.electron.ipcRenderer.send('app-post-create', result)
+    window.electron.ipcRenderer.once('app-post-created', () => {
+      updatePostSavedStatus()
+      ElMessage.success('保存成功')
+      reloadSite()
+    })
+  }
+}
+
 onBeforeMount(() => {
   buildCurrentForm()
 })
+
+onMounted(() => {
+  watch(
+    form,
+    () => {
+      changedAfterLastSave.value = true
+    },
+    { deep: true }
+  )
+})
+
+function handleFormContentUpdate(newValue: string) {
+  form.value.content = newValue
+}
 </script>
 
 <template>
@@ -94,13 +224,13 @@ onBeforeMount(() => {
           </div>
         </el-tooltip>
         <el-tooltip placement="bottom" content="存草稿">
-          <div class="op-btn" tabindex="0" :class="{ disabled: !canSubmit }">
+          <div class="op-btn" tabindex="0" :class="{ disabled: !canSubmit }" @click="saveDraft">
             <i class="zwicon-checkmark" />
           </div>
         </el-tooltip>
         <el-tooltip placement="bottom" content="保存">
           <div class="op-btn save-btn" tabindex="0" :class="{ disabled: !canSubmit }">
-            <i class="zwicon-checkmark" />
+            <i class="zwicon-checkmark" @click="savePost" />
           </div>
         </el-tooltip>
       </div>
@@ -112,9 +242,11 @@ onBeforeMount(() => {
           size="large"
           placeholder="输入标题"
         ></el-input>
-        <monaco-markdown-editor :content="form.content" class="post-editor" />
-        <!-- <monaco-markdown-editor ref="monacoMarkdownEditor" :content="form.content" class="post-editor"
-                @update="(newValue) => (form.content = newValue)" /> -->
+        <monaco-markdown-editor ref="monacoMarkdownEditor"
+          :content="form.content"
+          class="post-editor"
+          @update="handleFormContentUpdate"
+        />
       </div>
     </div>
   </div>
