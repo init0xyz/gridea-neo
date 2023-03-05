@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-24 18:52:27
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-27 22:22:05
+ * @LastEditTime: 2023-03-03 11:57:08
  * @FilePath: /gridea-neo/src/renderer/src/components/ArticleUpdate.vue
 -->
 <script setup lang="ts">
@@ -67,7 +67,7 @@ const featureType = ref<'DEFAULT' | 'EXTERNAL'>('DEFAULT')
 
 function buildCurrentForm() {
   if (props.articleFileName) {
-    fileNameChanged.value = true
+    fileNameChanged.value = true // 编辑文章标题时URL不跟随其变化
     currentPostIndex.value = store.posts.findIndex(
       (item: IPost) => item.fileName === props.articleFileName
     )
@@ -112,7 +112,7 @@ function checkArticleUrlValid() {
   const restPosts = JSON.parse(JSON.stringify(store.$state.posts))
   const foundPostIndex = restPosts.findIndex((post: IPost) => post.fileName === form.value.fileName)
 
-  if (foundPostIndex === -1) {
+  if (foundPostIndex !== -1) {
     if (currentPostIndex.value === -1) {
       // 新增文章时文件名和其他文章文件名冲突
       return false
@@ -184,14 +184,14 @@ function saveDraft() {
 function savePost() {
   if (canSubmit.value) {
     const result = formatForm(true)
-    // eslint-disable-next-line no-console
-    console.log(result)
     window.electron.ipcRenderer.send('app-post-create', result)
     window.electron.ipcRenderer.once('app-post-created', () => {
       updatePostSavedStatus()
       ElMessage.success('保存成功')
       reloadSite()
     })
+  } else {
+    ElMessage.warning('无法保存')
   }
 }
 
@@ -212,6 +212,12 @@ onMounted(() => {
 function handleFormContentUpdate(newValue: string) {
   form.value.content = newValue
 }
+
+function handleInputChange() {
+  if (!fileNameChanged.value && store.$state.themeConfig.postUrlFormat === UrlFormats.Slug) {
+    form.value.fileName = slug(form.value.title)
+  }
+}
 </script>
 
 <template>
@@ -219,18 +225,22 @@ function handleFormContentUpdate(newValue: string) {
     <div ref="pageTitle" class="page-title">
       <div class="flex" justify="end">
         <el-tooltip placement="bottom" content="返回">
-          <div class="op-btn" tabindex="0" @click="close">
+          <div class="op-btn" tabindex="0" @click.prevent="close">
             <i class="zwicon-arrow-left" />
           </div>
         </el-tooltip>
         <el-tooltip placement="bottom" content="存草稿">
-          <div class="op-btn" tabindex="0" :class="{ disabled: !canSubmit }" @click="saveDraft">
+          <div class="op-btn"
+            tabindex="0"
+            :class="{ disabled: !canSubmit }"
+            @click.prevent="saveDraft"
+          >
             <i class="zwicon-checkmark" />
           </div>
         </el-tooltip>
         <el-tooltip placement="bottom" content="保存">
           <div class="op-btn save-btn" tabindex="0" :class="{ disabled: !canSubmit }">
-            <i class="zwicon-checkmark" @click="savePost" />
+            <i class="zwicon-checkmark" @click.prevent="savePost" />
           </div>
         </el-tooltip>
       </div>
@@ -241,6 +251,7 @@ function handleFormContentUpdate(newValue: string) {
           class="post-title w-full"
           size="large"
           placeholder="输入标题"
+          @change="handleInputChange"
         ></el-input>
         <monaco-markdown-editor ref="monacoMarkdownEditor"
           :content="form.content"

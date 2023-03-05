@@ -9,7 +9,7 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
-  - resources/*
+  - resources
 afterSign: build/notarize.js
 win:
   icon: './resources/app-icons/gridea.ico'
@@ -32,8 +32,8 @@ dmg:
 linux:
   icon: './resources/app-icons/gridea.png'
   target:
-    - AppImage
-    - snap
+    # - AppImage
+    # - snap
     - deb
   maintainer: electronjs.org
   category: Utility

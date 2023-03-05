@@ -27,7 +27,7 @@ import initSiteEvents from './events/site'
 import initTagEvents from './events/tag'
 import initThemeSettings from './events/theme'
 
-declare const __static: string
+const __static = path.join(__dirname, '../../resources').replace('app.asar', 'app.asar.unpacked')
 
 export default class App {
   mainWindow: BrowserWindow

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-02-16 16:54:04
  * @LastEditors: init0xyz laiyilong0@gmail.com
- * @LastEditTime: 2023-02-26 15:24:47
+ * @LastEditTime: 2023-03-03 11:22:01
  * @FilePath: /gridea-neo/src/renderer/src/pages/index/articles.vue
 -->
 <script setup lang="ts">
@@ -12,11 +12,6 @@ import moment from 'moment'
 const selectedPost: any = ref([])
 const keyword = ref<string>('')
 const searchInputVisible = ref<boolean>(false)
-
-function addArticle() {
-  // eslint-disable-next-line no-console
-  console.log('添加新的文章')
-}
 
 function toggleSerachInputVisible() {
   searchInputVisible.value = !searchInputVisible.value
@@ -47,6 +42,11 @@ function editPost(post: IPost) {
 
 function close() {
   articleUpdateVisible.value = false
+}
+
+function addArticle() {
+  articleUpdateVisible.value = true
+  currentArticleFileName.value = ''
 }
 </script>
 
